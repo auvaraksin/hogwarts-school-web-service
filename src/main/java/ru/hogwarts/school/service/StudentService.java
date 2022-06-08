@@ -19,7 +19,7 @@ public class StudentService {
     }
 
     public Student getStudentById(Long studentId) {
-        return studentRepository.getById(studentId);
+        return studentRepository.findById(studentId).get();
     }
 
     public Student updateStudent(Student student) {

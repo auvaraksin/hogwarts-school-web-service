@@ -19,7 +19,7 @@ public class FacultyService {
     }
 
     public Faculty getFacultyById(Long facultyId) {
-        return facultyRepository.getById(facultyId);
+        return facultyRepository.findById(facultyId).get();
     }
 
     public Faculty updateFaculty(Faculty faculty) {
