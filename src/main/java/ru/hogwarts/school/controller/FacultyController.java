@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("faculty")
 public class FacultyController {
@@ -22,21 +20,24 @@ public class FacultyController {
         return ResponseEntity.ok(createFaculty);
     }
 
-    @GetMapping("{facultyId}")
-    public ResponseEntity<Faculty> getFacultyById(@PathVariable Long facultyId) {
-        Faculty faculty = facultyService.getFacultyById(facultyId);
-        if (faculty == null) {
-            return ResponseEntity.notFound().build();
+    @GetMapping()
+    public ResponseEntity getFaculty(@RequestParam(required = false) Long facultyId,
+                                     @RequestParam(required = false) String name,
+                                     @RequestParam(required = false) String color) {
+        if (facultyId != null) {
+            Faculty faculty = facultyService.getFacultyById(facultyId);
+            if (faculty == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(faculty);
         }
-        return ResponseEntity.ok(faculty);
+        if (name != null || color != null) {
+            return ResponseEntity.ok(facultyService.getFacultyByNameOrByColor(name, color));
+        }
+        return ResponseEntity.ok(facultyService.getFacultyAll());
     }
 
-    @GetMapping("/filter/{color}")
-    public List<Faculty> getFacultyByColor(@PathVariable String color) {
-        return facultyService.getFacultyByColor(color);
-    }
-
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<Faculty> updateFaculty(@RequestBody Faculty faculty) {
         Faculty updateFaculty = facultyService.updateFaculty(faculty);
         if (updateFaculty == null) {
