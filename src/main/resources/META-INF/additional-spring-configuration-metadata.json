@@ -4,5 +4,11 @@
       "name": "spring.jpa.hibernate.ddl",
       "type": "java.lang.String",
       "description": "Description for spring.jpa.hibernate.ddl."
+    },
+    {
+      "name": "path.to.avatars.folder",
+      "type": "java.lang.String",
+      "description": "Description for path.to.avatars.folder."
     }
-  ] }
+  ]
+}
