@@ -20,9 +20,9 @@ import java.nio.file.Path;
 @RestController
 @RequestMapping("student")
 public class AvatarController {
-    public final AvatarService avatarService;
+    private final AvatarService avatarService;
 
-    public AvatarController(AvatarService avatarService) {
+    public AvatarController(AvatarServiceImpl avatarService) {
         this.avatarService = avatarService;
     }
 
