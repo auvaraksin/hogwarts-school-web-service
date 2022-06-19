@@ -11,7 +11,7 @@ import ru.hogwarts.school.service.StudentServiceImpl;
 public class StudentController {
     private final StudentService studentService;
 
-    public StudentController(StudentServiceImpl studentService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 

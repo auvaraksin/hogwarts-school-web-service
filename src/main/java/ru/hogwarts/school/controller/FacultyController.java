@@ -11,7 +11,7 @@ import ru.hogwarts.school.service.FacultyServiceImpl;
 public class FacultyController {
     private final FacultyService facultyService;
 
-    public FacultyController(FacultyServiceImpl facultyService) {
+    public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
 

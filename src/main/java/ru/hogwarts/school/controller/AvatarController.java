@@ -22,7 +22,7 @@ import java.nio.file.Path;
 public class AvatarController {
     private final AvatarService avatarService;
 
-    public AvatarController(AvatarServiceImpl avatarService) {
+    public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
     }
 

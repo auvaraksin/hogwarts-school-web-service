@@ -1,8 +1,5 @@
 package ru.hogwarts.school;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +28,6 @@ import static ru.hogwarts.school.TestConstants.*;
 
 @WebMvcTest
 public class FacultyControllerMvcTests {
-    JSONObject facultyObject = new JSONObject();
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,18 +47,8 @@ public class FacultyControllerMvcTests {
     @InjectMocks
     private FacultyController facultyController;
 
-    @BeforeEach
-    public void init() throws JSONException {
-        FACULTY_DEFAULT.setId(ID_DEFAULT);
-        FACULTY_DEFAULT.setName(NAME_DEFAULT);
-        FACULTY_DEFAULT.setColor(COLOR_DEFAULT);
-        facultyObject.put("id", ID_DEFAULT);
-        facultyObject.put("name", NAME_DEFAULT);
-        facultyObject.put("color", COLOR_DEFAULT);
-    }
-
     @Test
-    public void FacultyControllerSaveTest() throws Exception {
+    public void facultyControllerSaveTest() throws Exception {
         when(facultyRepository.save(any(Faculty.class)))
                 .thenReturn(FACULTY_DEFAULT);
 
@@ -78,7 +64,7 @@ public class FacultyControllerMvcTests {
     }
 
     @Test
-    public void FacultyControllerGetTest() throws Exception {
+    public void facultyControllerGetTest() throws Exception {
         List<Faculty> faculties = Arrays.asList(FACULTY_DEFAULT);
         when(facultyRepository.findById(any(Long.class)))
                 .thenReturn(Optional.of(FACULTY_DEFAULT));
@@ -114,7 +100,7 @@ public class FacultyControllerMvcTests {
     }
 
     @Test
-    public void FacultyControllerPutTest() throws Exception {
+    public void facultyControllerPutTest() throws Exception {
         when(facultyRepository.existsById(any(Long.class))).thenReturn(true);
         when(facultyRepository.save(any(Faculty.class)))
                 .thenReturn(FACULTY_DEFAULT);
@@ -131,7 +117,7 @@ public class FacultyControllerMvcTests {
     }
 
     @Test
-    public void FacultyControllerDeleteTest() throws Exception {
+    public void facultyControllerDeleteTest() throws Exception {
         doNothing().when(facultyRepository).deleteById(any(Long.class));
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/faculty/" + ID_DEFAULT))
