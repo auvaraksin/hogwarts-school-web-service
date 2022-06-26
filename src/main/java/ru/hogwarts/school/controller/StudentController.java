@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.interfaces.StudentService;
 import ru.hogwarts.school.model.Student;
 
+
 @RestController
 @RequestMapping("student")
 public class StudentController {
@@ -65,6 +66,21 @@ public class StudentController {
             return ResponseEntity.ok(studentService.getStudentFaculty(studentId));
         }
         return ResponseEntity.badRequest().body("Request parameters are missing");
+    }
+
+    @GetMapping("/students-quantity-info")
+    public ResponseEntity getStudentsQuantity() {
+        return ResponseEntity.ok(studentService.getStudentsQuantity());
+    }
+
+    @GetMapping("/students-average-age-info")
+    public ResponseEntity getStudentsAverageAge() {
+        return ResponseEntity.ok(studentService.getStudentsAverageAge());
+    }
+
+    @GetMapping("/list-of-last-five-students")
+    public ResponseEntity getLastFiveStudentsList() {
+        return ResponseEntity.ok(studentService.getLastFiveStudentsList());
     }
 
     @PutMapping()
