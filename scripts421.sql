@@ -7,8 +7,7 @@ ALTER TABLE student ALTER COLUMN age SET DEFAULT 20;
 ALTER TABLE faculty ADD CONSTRAINT name_color_faculty_constraint UNIQUE (name, color);
 
 SELECT student.name, student.age, faculty.name FROM student
-LEFT JOIN faculty ON student.faculty_id = faculty.id;
+                                                        LEFT JOIN faculty ON student.faculty_id = faculty.id;
 
 SELECT * FROM student
-INNER JOIN avatar a on student.id = a.student_id;
-
+                  INNER JOIN avatar a on student.id = a.student_id;
