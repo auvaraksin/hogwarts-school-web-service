@@ -29,7 +29,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
-    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
 
     public AvatarServiceImpl(StudentService studentService, AvatarRepository avatarRepository) {
         this.studentService = studentService;
