@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.interfaces.FacultyService;
 import ru.hogwarts.school.model.Faculty;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("faculty")
 public class FacultyController {
@@ -35,6 +37,11 @@ public class FacultyController {
             return ResponseEntity.ok(facultyService.getFacultyByNameOrByColor(name, color));
         }
         return ResponseEntity.ok(facultyService.getFacultyAll());
+    }
+
+    @GetMapping("/find-faculties-with-the-longest-name")
+    public ResponseEntity<Collection> getFacultiesWithTheLongestName() {
+        return ResponseEntity.ok(facultyService.getFacultyWithTheMaxNameLength());
     }
 
     @PutMapping

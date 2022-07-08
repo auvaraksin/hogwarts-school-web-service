@@ -11,6 +11,7 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -41,6 +42,19 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findByAge(age);
     }
 
+    public Collection<String> getStudentsBySubstring(String substring) {
+        logger.info("Method to find students by substring was invoked ");
+        return studentRepository
+                .findAll()
+                .stream()
+                .parallel()
+                .filter(student -> student.getName().startsWith(substring))
+                .map(student -> student.getName())
+                .map(String::toUpperCase)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
     public Collection<Student> getStudentByAgeBetween(Integer minAge, Integer maxAge) {
         logger.info("Method to find students between setting up ages was invoked");
         return studentRepository.findByAgeBetween(minAge, maxAge);
@@ -61,9 +75,20 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.getStudentsQuantity();
     }
 
-    public Long getStudentsAverageAge() {
+    public Double getStudentsAverageAge() {
         logger.info("Method to find out student's average age was invoked");
         return studentRepository.getStudentsAverageAge();
+    }
+
+    public Double getStudentsAverageAgeByStreamMethod() {
+        logger.info("Method to find out student's average age by stream method was invoked");
+        return studentRepository
+                .findAll()
+                .stream()
+                .parallel()
+                .mapToInt(student->student.getAge())
+                .average()
+                .getAsDouble();
     }
 
     public List<GetLastFiveStudents> getLastFiveStudentsList() {

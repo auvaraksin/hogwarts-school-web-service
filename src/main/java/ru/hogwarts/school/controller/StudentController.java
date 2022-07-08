@@ -33,6 +33,11 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentAll());
     }
 
+    @GetMapping("/filter/by-name-substring")
+    public ResponseEntity getStudentListByName(@RequestParam(required = true) String substring) {
+        return ResponseEntity.ok(studentService.getStudentsBySubstring(substring));
+    }
+
     @GetMapping("/filter/by-age")
     public ResponseEntity getStudentListByAge(@RequestParam(required = false) Integer studentAge,
                                      @RequestParam(required = false) Integer minAge,
@@ -76,6 +81,11 @@ public class StudentController {
     @GetMapping("/students-average-age-info")
     public ResponseEntity getStudentsAverageAge() {
         return ResponseEntity.ok(studentService.getStudentsAverageAge());
+    }
+
+    @GetMapping("/students-average-age-info-by-stream-method")
+    public ResponseEntity getStudentsAverageAgeByStreamMethod() {
+        return ResponseEntity.ok(studentService.getStudentsAverageAgeByStreamMethod());
     }
 
     @GetMapping("/list-of-last-five-students")
