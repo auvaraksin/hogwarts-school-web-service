@@ -13,6 +13,8 @@ public interface StudentService {
 
     Student getStudentById(Long studentId);
 
+    Collection<String> getStudentsBySubstring(String substring);
+
     Collection<Student> getStudentsByAge(Integer age);
 
     Collection<Student> getStudentByAgeBetween(Integer minAge, Integer maxAge);
@@ -23,7 +25,9 @@ public interface StudentService {
 
     Integer getStudentsQuantity();
 
-    Long getStudentsAverageAge();
+    Double getStudentsAverageAge();
+
+    Double getStudentsAverageAgeByStreamMethod();
 
     List<GetLastFiveStudents> getLastFiveStudentsList();
 

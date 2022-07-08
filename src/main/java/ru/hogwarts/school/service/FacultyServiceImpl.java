@@ -8,6 +8,8 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -36,6 +38,21 @@ public class FacultyServiceImpl implements FacultyService {
     public Collection<Faculty> getFacultyByNameOrByColor(String name, String color) {
         logger.info("Method to find faculty by faculty's name or by faculty's color was invoked");
         return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
+
+    public Collection<Faculty> getFacultyWithTheMaxNameLength() {
+        logger.info("Method to find faculties with max name length was invoked");
+        int max = facultyRepository
+                .findAll()
+                .stream()
+                .mapToInt(faculty ->faculty.getName().length())
+                .max().getAsInt();
+        return facultyRepository
+                .findAll()
+                .stream()
+                .parallel()
+                .filter(faculty -> faculty.getName().length() == max)
+                .collect(Collectors.toList());
     }
 
     public Faculty updateFaculty(Faculty faculty) {

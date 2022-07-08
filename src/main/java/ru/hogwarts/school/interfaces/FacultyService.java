@@ -13,6 +13,8 @@ public interface FacultyService {
 
     Collection<Faculty> getFacultyByNameOrByColor(String name, String color);
 
+    Collection<Faculty> getFacultyWithTheMaxNameLength();
+
     Faculty updateFaculty(Faculty faculty);
 
     void deleteFaculty(Long facultyId);
