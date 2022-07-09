@@ -112,62 +112,55 @@ public class StudentServiceImpl implements StudentService {
 
     public void getStudentsListByThreadMethod() {
         logger.info("Method to get students list by thread method was invoked");
-        List<String> students = studentRepository
-                .findAll()
-                .stream()
-                .map(student -> student.getName())
-                .collect(Collectors.toList());
+        List<String> students = getStudentsListByStreamMethod(studentRepository);
         int firstPoint = students.size() / 3;
         int secondPoint = firstPoint * 2;
         //main thread
-        for (int i = 0; i < firstPoint; i++) {
-            System.out.println(students.get(i));
-        }
+        printStudentsNameToConsole(0, firstPoint, students);
         //first parallel thread
         new Thread(() -> {
-            for (int i = firstPoint; i < secondPoint; i++) {
-                System.out.println(students.get(i));
-            }
+            printStudentsNameToConsole(firstPoint, secondPoint, students);
         }).start();
         //second parallel thread
         new Thread(() -> {
-            for (int i = secondPoint; i < students.size(); i++) {
-                System.out.println(students.get(i));
-            }
+            printStudentsNameToConsole(secondPoint, students.size(), students);
         }).start();
     }
 
     public void getStudentsListBySynchronizedThreadMethod() {
         logger.info("Method to get students list by synchronized thread method was invoked");
-        Object flag = new Object();
-        List<String> students = studentRepository
+        List<String> students = getStudentsListByStreamMethod(studentRepository);
+        int firstPoint = students.size() / 3;
+        int secondPoint = firstPoint * 2;
+        //main thread
+        printStudentsNameToConsoleSynchronizedMethod(0, firstPoint, students);
+        //first parallel thread
+        new Thread(() -> {
+            printStudentsNameToConsoleSynchronizedMethod(firstPoint, secondPoint, students);
+        }).start();
+        //second parallel thread
+        new Thread(() -> {
+            printStudentsNameToConsoleSynchronizedMethod(secondPoint, students.size(), students);
+        }).start();
+    }
+
+    private List<String> getStudentsListByStreamMethod(StudentRepository studentRepository) {
+        return studentRepository
                 .findAll()
                 .stream()
                 .map(student -> student.getName())
                 .collect(Collectors.toList());
-        int firstPoint = students.size() / 3;
-        int secondPoint = firstPoint * 2;
-        //main thread
-        synchronized (flag) {
-            for (int i = 0; i < firstPoint; i++) {
-                System.out.println(students.get(i));
-            }
+    }
+
+    private void printStudentsNameToConsole(Integer startPoint, Integer endPoint, List<String> students) {
+        for (int i = startPoint; i < endPoint; i++) {
+            System.out.println(students.get(i));
         }
-        //first parallel thread
-        synchronized (flag) {
-            new Thread(() -> {
-                for (int i = firstPoint; i < secondPoint; i++) {
-                    System.out.println(students.get(i));
-                }
-            }).start();
-        }
-        //second parallel thread
-        synchronized (flag) {
-            new Thread(() -> {
-                for (int i = secondPoint; i < students.size(); i++) {
-                    System.out.println(students.get(i));
-                }
-            }).start();
+    }
+
+    private synchronized void printStudentsNameToConsoleSynchronizedMethod(Integer startPoint, Integer endPoint, List<String> students) {
+        for (int i = startPoint; i < endPoint; i++) {
+            System.out.println(students.get(i));
         }
     }
 }
