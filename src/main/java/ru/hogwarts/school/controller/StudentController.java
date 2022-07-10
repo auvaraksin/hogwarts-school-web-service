@@ -40,8 +40,8 @@ public class StudentController {
 
     @GetMapping("/filter/by-age")
     public ResponseEntity getStudentListByAge(@RequestParam(required = false) Integer studentAge,
-                                     @RequestParam(required = false) Integer minAge,
-                                     @RequestParam(required = false) Integer maxAge) {
+                                              @RequestParam(required = false) Integer minAge,
+                                              @RequestParam(required = false) Integer maxAge) {
         if (studentAge != null) {
             if (studentAge < 14) {
                 return ResponseEntity.badRequest().build();
@@ -107,4 +107,17 @@ public class StudentController {
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/get-students-list-by-thread-method")
+    public ResponseEntity getStudentsListByThreadMethod() {
+        studentService.getStudentsListByThreadMethod();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-students-list-by-synchronized-thread-method")
+    public ResponseEntity getStudentsListBySynchronizedThreadMethod() {
+        studentService.getStudentsListBySynchronizedThreadMethod();
+        return ResponseEntity.ok().build();
+    }
+
 }

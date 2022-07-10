@@ -34,4 +34,8 @@ public interface StudentService {
     Student updateStudent(Student student);
 
     void deleteStudent(Long studentId);
+
+    void getStudentsListByThreadMethod();
+
+    void getStudentsListBySynchronizedThreadMethod();
 }

@@ -86,7 +86,7 @@ public class StudentServiceImpl implements StudentService {
                 .findAll()
                 .stream()
                 .parallel()
-                .mapToInt(student->student.getAge())
+                .mapToInt(student -> student.getAge())
                 .average()
                 .getAsDouble();
     }
@@ -108,5 +108,59 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(Long studentId) {
         logger.info("Method to delete student was invoked");
         studentRepository.deleteById(studentId);
+    }
+
+    public void getStudentsListByThreadMethod() {
+        logger.info("Method to get students list by thread method was invoked");
+        List<String> students = getStudentsListByStreamMethod(studentRepository);
+        int firstPoint = students.size() / 3;
+        int secondPoint = firstPoint * 2;
+        //main thread
+        printStudentsNameToConsole(0, firstPoint, students);
+        //first parallel thread
+        new Thread(() -> {
+            printStudentsNameToConsole(firstPoint, secondPoint, students);
+        }).start();
+        //second parallel thread
+        new Thread(() -> {
+            printStudentsNameToConsole(secondPoint, students.size(), students);
+        }).start();
+    }
+
+    public void getStudentsListBySynchronizedThreadMethod() {
+        logger.info("Method to get students list by synchronized thread method was invoked");
+        List<String> students = getStudentsListByStreamMethod(studentRepository);
+        int firstPoint = students.size() / 3;
+        int secondPoint = firstPoint * 2;
+        //main thread
+        printStudentsNameToConsoleSynchronizedMethod(0, firstPoint, students);
+        //first parallel thread
+        new Thread(() -> {
+            printStudentsNameToConsoleSynchronizedMethod(firstPoint, secondPoint, students);
+        }).start();
+        //second parallel thread
+        new Thread(() -> {
+            printStudentsNameToConsoleSynchronizedMethod(secondPoint, students.size(), students);
+        }).start();
+    }
+
+    private List<String> getStudentsListByStreamMethod(StudentRepository studentRepository) {
+        return studentRepository
+                .findAll()
+                .stream()
+                .map(student -> student.getName())
+                .collect(Collectors.toList());
+    }
+
+    private void printStudentsNameToConsole(Integer startPoint, Integer endPoint, List<String> students) {
+        for (int i = startPoint; i < endPoint; i++) {
+            System.out.println(students.get(i));
+        }
+    }
+
+    private synchronized void printStudentsNameToConsoleSynchronizedMethod(Integer startPoint, Integer endPoint, List<String> students) {
+        for (int i = startPoint; i < endPoint; i++) {
+            System.out.println(students.get(i));
+        }
     }
 }
